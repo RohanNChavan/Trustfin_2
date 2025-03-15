@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrustFin - Personal Loan Application</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1e40af;
+            --primary-dark: #1e3a8a;
+            --secondary-color: #0ea5e9;
+            --error-color: #ef4444;
+            --success-color: #22c55e;
+            --border-radius: 0.375rem;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.5;
+            color: #334155;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(to bottom right, #1e40af, #1e3a8a);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #475569;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        input[type="tel"],
+        select {
+            width: 100%;
+            padding: 0.625rem;
+            border: 1px solid #cbd5e1;
+            border-radius: var(--border-radius);
+            background-color: #fff;
+            color: #334155;
+            transition: border-color 0.2s;
+        }
+        
+        input:focus,
+        select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 1rem;
+        }
+        
+        .checkbox-container input[type="checkbox"] {
+            margin-right: 0.5rem;
+            margin-top: 0.25rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.625rem 1.25rem;
+            border: none;
+            border-radius: var(--border-radius);
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-full {
+            width: 100%;
+            padding: 0.75rem;
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+        
+        .error, input.error, select.error {
+            border-color: var(--error-color) !important;
+        }
+        
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+        
+        .form-message {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+        }
+        
+        .success-message {
+            background-color: rgba(34, 197, 94, 0.1);
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+        }
+        
+        .error-message.form-message {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--error-color);
+            border: 1px solid var(--error-color);
+        }
+        
+        .loading-spinner {
+            display: none;
+            margin: 0 auto;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--primary-color);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .header {
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+        }
+        
+        .footer {
+            background-color: #f8fafc;
+            padding: 2rem 0;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        @media (min-width: 768px) {
+            .two-columns {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container flex justify-between items-center">
+            <div class="text-2xl font-bold text-primary-color">
+                <span style="color: var(--primary-color)">Trust</span><span style="color: var(--secondary-color)">Fin</span>
+            </div>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="#" class="hover:text-primary-color transition-colors">Home</a></li>
+                    <li><a href="#" class="hover:text-primary-color transition-colors">About</a></li>
+                    <li><a href="#" class="hover:text-primary-color transition-colors">Services</a></li>
+                    <li><a href="#" class="hover:text-primary-color transition-colors">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white py-12">
+        <div class="container">
+            <div class="two-columns items-center">
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4">Personal Loan Application</h1>
+                    <p class="text-lg opacity-90 mb-6">Get the financial support you need with our hassle-free personal loan options starting at 10.5% p.a.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-300" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            </svg>
+                            Loans from ₹50,000 to ₹25,00,000
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-300" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            </svg>
+                            Interest rates starting at 10.5% p.a.
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-300" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            </svg>
+                            Flexible repayment terms of 12 to 60 months
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-300" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            </svg>
+                            No hidden fees or prepayment penalties
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <img src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Professional financial consultation" class="rounded-lg shadow-xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Application Form Section -->
+    <section class="py-12 bg-gray-50">
+        <div class="form-container bg-white rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold text-center mb-6" style="color: var(--primary-color)">Apply for a Personal Loan</h2>
+            <p class="text-center mb-8 text-gray-600">Fill out the form below to get started with your loan application. Our team will review your details and contact you within 24 hours.</p>
+            
+            <!-- Success Message -->
+            <div id="formSuccess" style="display: none;" class="form-message success-message mb-6">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor" style="color: var(--success-color)">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    <div>
+                        <h3 class="font-bold" style="color: var(--success-color)">Application Submitted Successfully!</h3>
+                        <p>We've received your application and will get back to you within 24 hours.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Error Message -->
+            <div id="formError" style="display: none;" class="form-message error-message mb-6">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor" style="color: var(--error-color)">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                    <div>
+                        <h3 class="font-bold" style="color: var(--error-color)">Submission Error</h3>
+                        <p>There was a problem submitting your application. Please try again or contact our support team.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Loading Spinner -->
+            <div id="loadingSpinner" class="loading-spinner mb-6"></div>
+            
+            <!-- Loan Application Form -->
+            <form id="loanApplicationForm">
+                <div class="two-columns">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" placeholder="10-digit mobile number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pan">PAN Number *</label>
+                        <input type="text" id="pan" name="pan" placeholder="e.g. ABCDE1234F" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pincode">PIN Code *</label>
+                        <input type="text" id="pincode" name="pincode" placeholder="6-digit PIN code" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="salary">Monthly Salary (₹) *</label>
+                        <input type="number" id="salary" name="salary" placeholder="Enter your monthly salary" min="10000" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="employment">Employment Status *</label>
+                    <select id="employment" name="employment" required>
+                        <option value="">-- Select Employment Status --</option>
+                        <option value="salaried">Salaried</option>
+                        <option value="self-employed">Self-employed</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="loanAmount">Loan Amount (₹) *</label>
+                    <select id="loanAmount" name="loanAmount" required>
+                        <option value="">-- Select Loan Amount --</option>
+                        <option value="50000">₹50,000</option>
+                        <option value="100000">₹1,00,000</option>
+                        <option value="200000">₹2,00,000</option>
+                        <option value="300000">₹3,00,000</option>
+                        <option value="500000">₹5,00,000</option>
+                        <option value="1000000">₹10,00,000</option>
+                        <option value="1500000">₹15,00,000</option>
+                        <option value="2000000">₹20,00,000</option>
+                        <option value="2500000">₹25,00,000</option>
+                    </select>
+                </div>
+                
+                <div class="checkbox-container">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms" class="text-sm">
+                        I agree to the <a href="#" style="color: var(--secondary-color)">Terms & Conditions</a> and <a href="#" style="color: var(--secondary-color)">Privacy Policy</a>. I consent to receive communications from TrustFin regarding my application.
+                    </label>
+                </div>
+                
+                <div class="mt-6">
+                    <button type="submit" class="btn btn-full" style="background-color: var(--secondary-color)">Submit Application</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="text-center">
+                <div class="mb-4">
+                    <span class="text-xl font-bold">
+                        <span style="color: var(--primary-color)">Trust</span><span style="color: var(--secondary-color)">Fin</span>
+                    </span>
+                </div>
+                <p class="text-gray-600 mb-4">Your trusted financial partner for personal loans and more.</p>
+                <div class="text-sm text-gray-500">
+                    &copy; 2023 TrustFin. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="github-pages-form.js"></script>
+</body>
+</html>
