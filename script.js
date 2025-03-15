@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded - script starting");
+    
     // Use the correct form ID "loanApplicationForm" instead of "loan-form"
     const form = document.getElementById('loanApplicationForm');
     
@@ -6,19 +8,26 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!form) {
         console.error("Form with ID 'loanApplicationForm' not found!");
         return;
+    } else {
+        console.log("Form found successfully:", form);
     }
     
     // Check if error display element exists, create it if not
     let errorDisplay = document.getElementById('formError');
     if (!errorDisplay) {
+        console.log("Creating error display element");
         errorDisplay = document.createElement('div');
         errorDisplay.id = 'formError';
         errorDisplay.className = 'form-error';
         errorDisplay.style.display = 'none';
         form.parentNode.insertBefore(errorDisplay, form.nextSibling);
+    } else {
+        console.log("Error display element found");
     }
     
+    console.log("Adding submit event listener to form");
     form.addEventListener('submit', function(e) {
+        console.log("Form submit event triggered");
         e.preventDefault();
         
         // Clear any previous error messages
@@ -38,18 +47,29 @@ document.addEventListener('DOMContentLoaded', function() {
             loanAmount: document.getElementById('loanAmount').value
         };
         
+        console.log("Form data collected:", formData);
+        
         // Validate the form
+        console.log("Validating form...");
         if (!validateForm()) {
+            console.log("Form validation failed");
             return false;
         }
+        console.log("Form validation passed");
         
         // Show loading state
         const submitButton = form.querySelector('button[type="submit"]');
-        submitButton.disabled = true;
-        submitButton.textContent = 'Submitting...';
+        if (!submitButton) {
+            console.error("Submit button not found!");
+        } else {
+            console.log("Submit button found, changing to loading state");
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting...';
+        }
         
         // Use the correct Google Apps Script URL
         const scriptURL = 'https://script.google.com/macros/s/AKfycby_Gz2BE4dunPhnboivkA-2TAiIsI_u7todFQmFmT91mXzVygw_iTHqOiAQk_mpkZL2pw/exec';
+        console.log("Using Google Script URL:", scriptURL);
         
         // Format data for Google Sheets
         const params = new URLSearchParams();
@@ -59,7 +79,10 @@ document.addEventListener('DOMContentLoaded', function() {
             params.append(key, formData[key]);
         }
         
+        console.log("Prepared params for submission:", params.toString());
+        
         // Send the data using fetch API
+        console.log("Sending fetch request to Google Script...");
         fetch(scriptURL, {
             method: 'POST',
             mode: 'no-cors', // Important for cross-origin requests to Google Scripts
@@ -72,18 +95,21 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => {
             // Since we're using no-cors, we can't actually read the response
             // But we can assume success if there's no error thrown
-            console.log('Success!', response);
+            console.log('Fetch successful!', response);
             form.reset();
             showSuccessMessage();
         })
         .catch(error => {
-            console.error('Error!', error.message);
-            showError("Something went wrong. Please try again later.");
+            console.error('Fetch error:', error.message);
+            showError("Something went wrong with the submission. Please try again later.");
         })
         .finally(() => {
             // Reset button state
-            submitButton.disabled = false;
-            submitButton.textContent = 'Submit Application';
+            console.log("Fetch request completed (success or failure)");
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Submit Application';
+            }
         });
     });
     
@@ -151,7 +177,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function markFieldAsError(fieldId, message) {
         const field = document.getElementById(fieldId);
-        if (!field) return;
+        if (!field) {
+            console.error(`Field with id '${fieldId}' not found!`);
+            return;
+        }
         
         field.classList.add('error');
         
@@ -178,13 +207,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function showSuccessMessage() {
+        console.log("Showing success message");
         // Show the success message that's already in your HTML
         const successElement = document.getElementById('formSuccess');
         if (successElement) {
+            console.log("Using existing success element");
             successElement.style.display = 'block';
             form.style.display = 'none';
         } else {
             // Fallback if the success element doesn't exist
+            console.log("Creating fallback success message");
             const formContainer = document.querySelector('.form-container');
             formContainer.innerHTML = `
                 <div class="success-message">
@@ -197,8 +229,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function showError(message) {
-        if (!errorDisplay) return;
+        if (!errorDisplay) {
+            console.error("Cannot show error: errorDisplay element is null");
+            return;
+        }
         
+        console.log("Showing error:", message);
         errorDisplay.textContent = message;
         errorDisplay.style.display = 'block';
     }
