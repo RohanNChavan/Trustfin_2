@@ -1,6 +1,22 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('loan-form');
-    const errorDisplay = document.getElementById('error-message');
+    // Use the correct form ID "loanApplicationForm" instead of "loan-form"
+    const form = document.getElementById('loanApplicationForm');
+    
+    // Make sure form exists before proceeding
+    if (!form) {
+        console.error("Form with ID 'loanApplicationForm' not found!");
+        return;
+    }
+    
+    // Check if error display element exists, create it if not
+    let errorDisplay = document.getElementById('formError');
+    if (!errorDisplay) {
+        errorDisplay = document.createElement('div');
+        errorDisplay.id = 'formError';
+        errorDisplay.className = 'form-error';
+        errorDisplay.style.display = 'none';
+        form.parentNode.insertBefore(errorDisplay, form.nextSibling);
+    }
     
     form.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -28,10 +44,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Show loading state
-        document.getElementById('submit-button').disabled = true;
-        document.getElementById('submit-button').textContent = 'Submitting...';
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.textContent = 'Submitting...';
         
-        // Use the correct Google Apps Script URL from github-pages-form.js
+        // Use the correct Google Apps Script URL
         const scriptURL = 'https://script.google.com/macros/s/AKfycby_Gz2BE4dunPhnboivkA-2TAiIsI_u7todFQmFmT91mXzVygw_iTHqOiAQk_mpkZL2pw/exec';
         
         // Format data for Google Sheets
@@ -65,8 +82,8 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .finally(() => {
             // Reset button state
-            document.getElementById('submit-button').disabled = false;
-            document.getElementById('submit-button').textContent = 'Apply Now';
+            submitButton.disabled = false;
+            submitButton.textContent = 'Submit Application';
         });
     });
     
@@ -134,10 +151,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function markFieldAsError(fieldId, message) {
         const field = document.getElementById(fieldId);
+        if (!field) return;
+        
         field.classList.add('error');
         
-        errorDisplay.textContent = message;
-        errorDisplay.style.display = 'block';
+        showError(message);
         
         field.focus();
         
@@ -160,17 +178,27 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function showSuccessMessage() {
-        const formContainer = document.querySelector('.form-container');
-        formContainer.innerHTML = `
-            <div class="success-message">
-                <h2>Thank you for your application!</h2>
-                <p>Your loan application has been submitted successfully. Our team will contact you shortly.</p>
-                <button onclick="window.location.reload()" class="btn">Submit Another Application</button>
-            </div>
-        `;
+        // Show the success message that's already in your HTML
+        const successElement = document.getElementById('formSuccess');
+        if (successElement) {
+            successElement.style.display = 'block';
+            form.style.display = 'none';
+        } else {
+            // Fallback if the success element doesn't exist
+            const formContainer = document.querySelector('.form-container');
+            formContainer.innerHTML = `
+                <div class="success-message">
+                    <h2>Thank you for your application!</h2>
+                    <p>Your loan application has been submitted successfully. Our team will contact you shortly.</p>
+                    <button onclick="window.location.reload()" class="btn">Submit Another Application</button>
+                </div>
+            `;
+        }
     }
     
     function showError(message) {
+        if (!errorDisplay) return;
+        
         errorDisplay.textContent = message;
         errorDisplay.style.display = 'block';
     }
