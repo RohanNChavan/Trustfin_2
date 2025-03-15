@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function sendToGoogleSheets(formData) {
         // Replace this URL with your actual Google Apps Script Web App URL
         // The URL should be the one you get after deploying your Google Apps Script
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwo9Xa-9KoICnuwEPGwVJ-8LyE1nC6Q1Mpu2Q1gqVoEFrJ2tNVD_JyYAiLsPYW6OAU/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycby_Gz2BE4dunPhnboivkA-2TAiIsI_u7todFQmFmT91mXzVygw_iTHqOiAQk_mpkZL2pw/exec';
         
         // Format data for Google Sheets
         const params = new URLSearchParams();
